@@ -13,6 +13,7 @@ RUN echo "Host *\nStrictHostKeyChecking no\nUserKnownHostsFile=/dev/null">>/root
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN locale-gen de_DE.UTF-8
 RUN export LANG=de_DE.UTF-8
+RUN export TERM=xterm
 
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 CMD ["/sbin/my_init"]
