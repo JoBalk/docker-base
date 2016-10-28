@@ -5,7 +5,7 @@ RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 RUN apt-get update && apt-get clean && apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
 
 RUN apt-get install -y python-software-properties software-properties-common vim telnet language-pack-de-base dos2unix git socat acl ssmtp wget mysql-client watchdog update-manager-core mc nano
-RUN yes|do-release-upgrade -d -f DistUpgradeViewNonInteractive
+#RUN yes|do-release-upgrade -d -f DistUpgradeViewNonInteractive
 
 RUN echo "export TERM=xterm" | tee -a /root/.bashrc /etc/bash.bashrc
 RUN echo "Host *\nStrictHostKeyChecking no\nUserKnownHostsFile=/dev/null">>/root/.ssh/config
@@ -13,11 +13,9 @@ RUN echo "Host *\nStrictHostKeyChecking no\nUserKnownHostsFile=/dev/null">>/root
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN locale-gen de_DE.UTF-8
 RUN export LANG=de_DE.UTF-8
-RUN export TERM=xterm
 
 RUN useradd -ms /bin/bash docker
 COPY etc /etc
-RUN service ssh restart
 
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 CMD ["/sbin/my_init"]
