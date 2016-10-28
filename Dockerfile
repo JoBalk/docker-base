@@ -7,13 +7,17 @@ RUN apt-get update && apt-get clean && apt-get update && apt-get upgrade -y && a
 RUN apt-get install -y python-software-properties software-properties-common vim telnet language-pack-de-base dos2unix git socat acl ssmtp wget mysql-client watchdog update-manager-core mc nano
 RUN yes|do-release-upgrade -d -f DistUpgradeViewNonInteractive
 
-RUN echo "export TERM=linux" | tee -a /root/.bashrc /etc/bash.bashrc
+RUN echo "export TERM=xterm" | tee -a /root/.bashrc /etc/bash.bashrc
 RUN echo "Host *\nStrictHostKeyChecking no\nUserKnownHostsFile=/dev/null">>/root/.ssh/config
 
 RUN rm -f /etc/localtime && ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN locale-gen de_DE.UTF-8
 RUN export LANG=de_DE.UTF-8
 RUN export TERM=xterm
+
+RUN useradd -ms /bin/bash docker
+COPY etc /etc
+RUN service ssh restart
 
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 CMD ["/sbin/my_init"]
